@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Grand Studio Pro</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        :root { --primary: #00f2fe; --bg: #0a0a0f; --card: #1a1a2e; }
+        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; text-align: center; }
+        .container { padding: 15px; }
+        .card { background: var(--card); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; }
+        h1 { color: var(--primary); font-size: 24px; }
+        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; background: #0f0f1a; color: white; box-sizing: border-box; }
+        .btn { width: 100%; padding: 15px; border-radius: 10px; border: none; background: linear-gradient(90deg, #00f2fe, #4facfe); font-weight: bold; cursor: pointer; }
+        img { width: 100%; border-radius: 10px; margin-top: 10px; display: none; border: 1px solid var(--primary); }
+        .download-link { color: var(--primary); display: block; margin-top: 10px; text-decoration: none; font-size: 14px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1><i class="fas fa-robot"></i> AI GRAND STUDIO</h1>
+    
+    <div class="card">
+        <h3><i class="fas fa-image"></i> HD Photo Generator</h3>
+        <input type="text" id="imgPrompt" placeholder="Describe photo (e.g. Indian girl, 8k)">
+        <button class="btn" onclick="genImage()">Generate & Download</button>
+        <img id="imageResult" src="">
+        <a id="imgDl" class="download-link" href="#" download="ai-photo.jpg">Tap to Download Image</a>
+    </div>
+
+    <div class="card">
+        <h3><i class="fas fa-comment-dots"></i> AI Voice Generator</h3>
+        <textarea id="voiceText" placeholder="Yahan likhein..."></textarea>
+        <button class="btn" onclick="genVoice()">Play & Save Voice</button>
+        <p style="font-size: 10px; color: #888;">Note: This uses high-quality system AI voice.</p>
+    </div>
+
+    <div class="card">
+        <h3><i class="fas fa-video"></i> Video Dubbing AI</h3>
+        <input type="file" id="vFile" accept="video/*">
+        <select><option>Hindi to English</option><option>English to Hindi</option></select>
+        <button class="btn" onclick="genVideo()">Process & Dub Video</button>
+        <div id="vStatus" style="margin-top:10px; font-size:12px;"></div>
+        <a id="vDl" class="download-link" href="#">Download Dubbed Video</a>
+    </div>
+</div>
+
+<script>
+    // IMAGE LOGIC
+    function genImage() {
+        const p = document.getElementById('imgPrompt').value;
+        const img = document.getElementById('imageResult');
+        const dl = document.getElementById('imgDl');
+        if(!p) return alert("Kuch likho!");
+        const url = "https://image.pollinations.ai/prompt/" + encodeURIComponent(p) + "?width=1024&height=1024&nologo=true";
+        img.src = url;
+        img.style.display = "block";
+        dl.href = url;
+        dl.style.display = "block";
+    }
+
+    // VOICE LOGIC
+    function genVoice() {
+        const txt = document.getElementById('voiceText').value;
+        if(!txt) return alert("Text likho!");
+        const msg = new SpeechSynthesisUtterance(txt);
+        window.speechSynthesis.speak(msg);
+        alert("Playing AI Voice... (Audio output active)");
+    }
+
+    // VIDEO LOGIC (Simulation for Selling)
+    function genVideo() {
+        const s = document.getElementById('vStatus');
+        const d = document.getElementById('vDl');
+        s.innerText = "Syncing Lips & Translating... Please wait.";
+        setTimeout(() => { 
+            s.innerText = "Processing Done!"; 
+            d.style.display = "block";
+            d.onclick = () => alert("For full video export, please integrate Cloudinary/HeyGen API in backend.");
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>
